@@ -42,7 +42,7 @@ export function TaskSelector({ value, onValueChange }: TaskSelectorProps) {
           return (
             <SelectItem key={task.value} value={task.value}>
               <div className="flex items-center gap-2">
-                <Icon className="h-4 w-4" />
+                <Icon className="h-4 w-4 transition-colors group-hover:text-black dark:group-hover:text-gray-200" />
                 {task.label}
               </div>
             </SelectItem>
