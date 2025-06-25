@@ -75,7 +75,7 @@ export function MessageArea() {
             control={form.control}
             name="message"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="min-h-16">
                 <FormControl>
                   <RichTextInput
                     value={field.value}
@@ -91,38 +91,38 @@ export function MessageArea() {
           />
 
           {/* Bottom Row: Task Selector, Model Selector, and Send Button */}
-          <div className="flex items-center justify-between">
-          <div className="flex gap-2">
-            <FormField
-              control={form.control}
-              name="task"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <TaskSelector 
-                      value={field.value} 
-                      onValueChange={field.onChange} 
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="model"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <ModelSelector 
-                      value={field.value} 
-                      onValueChange={field.onChange} 
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
+          <div className="flex items-center justify-between mt-2">
+            <div className="flex gap-2">
+              <FormField
+                control={form.control}
+                name="task"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <TaskSelector 
+                        value={field.value} 
+                        onValueChange={field.onChange} 
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="model"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ModelSelector 
+                        value={field.value} 
+                        onValueChange={field.onChange} 
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
 
             {/* Send Button */}
             <Button 
