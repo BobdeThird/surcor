@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/form"
 import { Button } from "./ui/button"
 import { ArrowUp } from "lucide-react"
-import { TaskSelector } from "./Selectors/TaskSelector"
-import { ModelSelector } from "./Selectors/ModelSelector"
-import { ContextSelector } from "./Selectors/ContextSelector"
+import { TaskSelector } from "./Selectors/taskSelector"
+import { ModelSelector } from "./Selectors/modelSelector"
+import { ContextSelector } from "./Selectors/contextSelector"
 
 
 const formSchema = z.object({

@@ -12,7 +12,7 @@ import { mergeRegister } from '@lexical/utils';
 
 import MentionPlugin from './plugins/MentionPlugin';
 import { MentionNode, $isMentionNode } from './nodes/MentionNode';
-import { MentionItem } from '../Selectors/MentionDropdown';
+import { MentionItem } from '../Selectors/mentionDropdown';
 
 // Create a context to share menu state
 const MentionMenuContext = React.createContext<{

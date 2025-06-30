@@ -1,4 +1,4 @@
-import { MessageArea } from "./MessageArea";
+import { MessageArea } from "./messageArea";
 
 export default function Chat() {
   return (

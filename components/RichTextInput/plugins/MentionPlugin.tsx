@@ -8,7 +8,7 @@ import {
 } from '@lexical/react/LexicalTypeaheadMenuPlugin';
 import { $createMentionNode } from '../nodes/MentionNode';
 import { $getSelection, $isRangeSelection, TextNode, $isTextNode, $createTextNode } from 'lexical';
-import { MentionItem } from '../../Selectors/MentionDropdown';
+import { MentionItem } from '../../Selectors/mentionDropdown';
 
 export class MentionTypeaheadOption extends MenuOption {
   name: string;
