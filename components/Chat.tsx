@@ -60,28 +60,50 @@ export default function Chat() {
         className="w-full space-y-3 pt-4 px-3 overflow-y-auto pb-64 scrollbar-hide flex-1"
       >
         {messages.map((message) => (
-          <div key={message.id} className="mb-4">
-            <div className={`font-semibold mb-1 ${
-              message.role === 'user' ? 'text-blue-600' : 'text-gray-700'
-            }`}>
-              {message.role === 'user' ? 'You' : 'Assistant'}
-            </div>
-            {message.parts.map((part, index) => {
-              switch (part.type) {
-                case "text":
-                  return (
-                    <div key={index} className="whitespace-pre-wrap">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{part.text}</ReactMarkdown>
-                    </div>
-                  );
-                default:
-                  return (
-                    <div key={index} className="text-gray-500">
-                      [{part.type}]
-                    </div>
-                  );
-              }
-            })}
+          <div key={message.id} className={`mb-4 ${
+            message.role === 'user' ? 'flex justify-end' : 'w-full'
+          }`}>
+            {message.role === 'user' ? (
+              // User message - gray bubble, right aligned
+              <div className="max-w-[80%] bg-gray-100 rounded-2xl px-4 py-3">
+                {message.parts.map((part, index) => {
+                  switch (part.type) {
+                    case "text":
+                      return (
+                        <div key={index} className="whitespace-pre-wrap text-gray-800">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{part.text}</ReactMarkdown>
+                        </div>
+                      );
+                    default:
+                      return (
+                        <div key={index} className="text-gray-500">
+                          [{part.type}]
+                        </div>
+                      );
+                  }
+                })}
+              </div>
+            ) : (
+              // Assistant message - full width, no bubble
+              <div className="w-full">
+                {message.parts.map((part, index) => {
+                  switch (part.type) {
+                    case "text":
+                      return (
+                        <div key={index} className="whitespace-pre-wrap text-gray-800">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>{part.text}</ReactMarkdown>
+                        </div>
+                      );
+                    default:
+                      return (
+                        <div key={index} className="text-gray-500">
+                          [{part.type}]
+                        </div>
+                      );
+                  }
+                })}
+              </div>
+            )}
           </div>
         ))}
       </div>
