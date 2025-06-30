@@ -58,8 +58,14 @@ export function MessageArea({ onSendMessage }: MessageAreaProps) {
     });
   })
 
+  // Use RichTextInput's onSend to update the message field and submit the form
+  const handleRichTextSend = (visibleMessage: string, processedMessage: string) => {
+    form.setValue('message', processedMessage);
+    handleSubmit();
+  };
+
   return (
-    <div className="w-full max-w-2xl">
+    <div className="w-full max-w-2xl ">
       <Form {...form}>
         <form onSubmit={handleSubmit} className="p-3 border rounded-2xl bg-white/75 backdrop-blur-sm shadow-lg">
           
@@ -94,6 +100,7 @@ export function MessageArea({ onSendMessage }: MessageAreaProps) {
                     onMentionSearchChange={() => {}}
                     onMentionSelect={() => {}}
                     onMentionNodesChange={() => {}}
+                    onSend={handleRichTextSend}
                   />
                 </FormControl>
               </FormItem>
