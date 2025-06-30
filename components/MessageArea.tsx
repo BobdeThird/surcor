@@ -17,6 +17,9 @@ import { TaskSelector } from "./Selectors/taskSelector"
 import { ModelSelector } from "./Selectors/modelSelector"
 import { ContextSelector } from "./Selectors/contextSelector"
 
+import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport } from "ai"
+
 
 const formSchema = z.object({
   task: z.string().min(1, {
@@ -33,6 +36,10 @@ const formSchema = z.object({
 })
 
 export function MessageArea() {
+  const { messages, sendMessage } = useChat({
+    transport: new DefaultChatTransport({ api: "/api/chat" }),
+  });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,14 +51,38 @@ export function MessageArea() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-  }
+  const handleSubmit = form.handleSubmit((values) => {
+    sendMessage({ text: values.message });
+    form.reset({
+      task: values.task,
+      model: values.model,
+      message: "",
+      context: values.context,
+      googleAccessToken: values.googleAccessToken,
+    });
+  })
 
   return (
     <div className="fixed bottom-3 left-0 right-0 px-3 flex justify-between">
+      { /* Messages */ }
+      <div>
+        {messages.map((message) => (
+          <div key={message.id}>
+            {message.parts.map((part, index) => {
+              switch (part.type) {
+                case "text":
+                  return <div key={index}>{part.text}</div>;
+                default:
+                  return <div key={index}>[{part.type}]</div>;
+              }
+            })}
+          </div>
+        ))}
+      </div>
+
+      { /* Form */ }
       <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full max-w-2xl mx-auto p-3 border rounded-2xl bg-white/75 backdrop-blur-sm shadow-lg">
+          <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto p-3 border rounded-2xl bg-white/75 backdrop-blur-sm shadow-lg">
           
           {/* Context Selector */}
           <FormField

@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useEffect, useState, forwardRef, useImperativeHandle } from 'react';
-import { $createParagraphNode, $getRoot, $getSelection, COMMAND_PRIORITY_LOW, KEY_ENTER_COMMAND, LexicalEditor } from 'lexical';
+import { $createParagraphNode, $getRoot, $getSelection, COMMAND_PRIORITY_LOW, KEY_ENTER_COMMAND, LexicalEditor, $createTextNode } from 'lexical';
 import { LexicalComposer } from '@lexical/react/LexicalComposer';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
@@ -140,6 +140,7 @@ const RichTextInput = forwardRef<RichTextInput, RichTextInputProps>(({
 }, ref) => {
   const [isMentionMenuOpen, setIsMentionMenuOpen] = useState(false);
   const clearEditorRef = useRef<(() => void) | null>(null);
+  const editorRef = useRef<LexicalEditor | null>(null);
   
   const editorConfig = {
     namespace: 'RichTextInput',
@@ -171,7 +172,41 @@ const RichTextInput = forwardRef<RichTextInput, RichTextInputProps>(({
     clearEditorRef.current = clearFn;
   }, []);
 
+  // Sync form value to editor when value prop changes (for form reset)
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.getEditorState().read(() => {
+        const root = $getRoot();
+        const currentContent = root.getTextContent();
+        
+        // Only update if the values are different to avoid infinite loops
+        if (currentContent !== value) {
+          if (value === '') {
+            // If value is empty (form reset), clear the editor
+            if (clearEditorRef.current) {
+              clearEditorRef.current();
+            }
+          } else {
+            // If value has content, update the editor
+            editorRef.current?.update(() => {
+              const root = $getRoot();
+              root.clear();
+              const paragraph = $createParagraphNode();
+              paragraph.append($createTextNode(value));
+              root.append(paragraph);
+            });
+          }
+        }
+      });
+    }
+  }, [value]);
+
   const handleChange = useCallback((editorState: any, editor: LexicalEditor) => {
+    // Store editor reference for value syncing
+    if (!editorRef.current) {
+      editorRef.current = editor;
+    }
+    
     editor.getEditorState().read(() => {
       const root = $getRoot();
       const textContent = root.getTextContent();
