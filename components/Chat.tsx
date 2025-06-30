@@ -13,9 +13,9 @@ export default function Chat() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen p-5">
+    <div className="max-w-174 flex flex-col h-screen w-full mx-auto relative">
       {/* Message Display Area */}
-      <div className="flex-1 w-full max-w-2xl overflow-y-auto mb-4">
+      <div className="w-full space-y-3 pt-4 px-3 overflow-y-auto pb-64 scrollbar-hide flex-1">
         {messages.map((message) => (
           <div key={message.id} className="mb-4">
             <div className={`font-semibold mb-1 ${
@@ -43,8 +43,10 @@ export default function Chat() {
         ))}
       </div>
       
-      {/* Message Input Area */}
-      <MessageArea onSendMessage={sendMessage} />
+      <div className="fixed bottom-3 px-3 w-full max-w-174 z-20">
+        {/* Message Input Area */}
+        <MessageArea onSendMessage={sendMessage} />
+      </div>
     </div>
   );
 }
