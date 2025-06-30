@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "2.0.0-beta.3",
+    "@ai-sdk/openai": "2.0.0-beta.2",
+    "@ai-sdk/react": "2.0.0-beta.3",
     "@hookform/resolvers": "^5.1.1",
     "@lexical/react": "^0.32.1",
     "@lexical/utils": "^0.32.1",
@@ -17,6 +20,7 @@
     "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
+    "ai": "5.0.0-beta.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -26,6 +30,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.58.1",
+    "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.1",
     "zod": "^3.25.67"
   },
