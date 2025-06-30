@@ -17,10 +17,6 @@ import { TaskSelector } from "./Selectors/taskSelector"
 import { ModelSelector } from "./Selectors/modelSelector"
 import { ContextSelector } from "./Selectors/contextSelector"
 
-import { useChat } from "@ai-sdk/react"
-import { DefaultChatTransport } from "ai"
-
-
 const formSchema = z.object({
   task: z.string().min(1, {
     message: "Please select a task.",
@@ -35,11 +31,11 @@ const formSchema = z.object({
   googleAccessToken: z.string().nullable(),
 })
 
-export function MessageArea() {
-  const { messages, sendMessage } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
-  });
+interface MessageAreaProps {
+  onSendMessage: (message: { text: string }) => void;
+}
 
+export function MessageArea({ onSendMessage }: MessageAreaProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,7 +48,7 @@ export function MessageArea() {
   })
 
   const handleSubmit = form.handleSubmit((values) => {
-    sendMessage({ text: values.message });
+    onSendMessage({ text: values.message });
     form.reset({
       task: values.task,
       model: values.model,
@@ -63,26 +59,9 @@ export function MessageArea() {
   })
 
   return (
-    <div className="fixed bottom-3 left-0 right-0 px-3 flex justify-between">
-      { /* Messages */ }
-      <div>
-        {messages.map((message) => (
-          <div key={message.id}>
-            {message.parts.map((part, index) => {
-              switch (part.type) {
-                case "text":
-                  return <div key={index}>{part.text}</div>;
-                default:
-                  return <div key={index}>[{part.type}]</div>;
-              }
-            })}
-          </div>
-        ))}
-      </div>
-
-      { /* Form */ }
+    <div className="w-full max-w-2xl">
       <Form {...form}>
-          <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto p-3 border rounded-2xl bg-white/75 backdrop-blur-sm shadow-lg">
+        <form onSubmit={handleSubmit} className="p-3 border rounded-2xl bg-white/75 backdrop-blur-sm shadow-lg">
           
           {/* Context Selector */}
           <FormField
