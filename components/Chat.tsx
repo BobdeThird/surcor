@@ -11,7 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 export default function Chat() {
-  const { messages, sendMessage } = useChat({
+  const { messages, sendMessage, stop, status } = useChat({
     transport: new DefaultChatTransport({ api: "/api/chat" }),
   });
 
@@ -122,7 +122,7 @@ export default function Chat() {
           </div>
         )}
         {/* Message Input Area */}
-        <MessageArea onSendMessage={sendMessage} />
+        <MessageArea onSendMessage={sendMessage} status={status} onStop={stop} />
       </div>
     </div>
   );

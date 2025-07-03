@@ -12,10 +12,11 @@ import {
   FormItem,
 } from "@/components/ui/form"
 import { Button } from "./ui/button"
-import { ArrowUp } from "lucide-react"
+import { ArrowUp, Square } from "lucide-react"
 import { TaskSelector } from "./Selectors/taskSelector"
 import { ModelSelector } from "./Selectors/modelSelector"
 import { ContextSelector } from "./Selectors/contextSelector"
+import { UserSelector } from "./Selectors/userSelector"
 
 const formSchema = z.object({
   task: z.string().min(1, {
@@ -33,9 +34,11 @@ const formSchema = z.object({
 
 interface MessageAreaProps {
   onSendMessage: (message: { text: string }) => void;
+  status: "submitted" | "streaming" | "ready" | "error";
+  onStop: () => void;
 }
 
-export function MessageArea({ onSendMessage }: MessageAreaProps) {
+export function MessageArea({ onSendMessage, status, onStop }: MessageAreaProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,11 +67,18 @@ export function MessageArea({ onSendMessage }: MessageAreaProps) {
     handleSubmit();
   };
 
+  const isStreaming = status === 'submitted' || status === 'streaming';
+
   return (
     <div className="w-full max-w-2xl ">
       <Form {...form}>
-        <form onSubmit={handleSubmit} className="p-3 border rounded-2xl bg-white/75 backdrop-blur-sm shadow-lg">
+        <form onSubmit={handleSubmit} className="relative p-3 border rounded-2xl bg-white/75 backdrop-blur-sm shadow-lg">
           
+          {/* User Avatar Menu - Top Right */}
+          <div className="absolute top-3 right-3">
+            <UserSelector />
+          </div>
+
           {/* Context Selector */}
           <FormField
             control={form.control}
@@ -107,7 +117,7 @@ export function MessageArea({ onSendMessage }: MessageAreaProps) {
             )}
           />
 
-          {/* Bottom Row: Task Selector, Model Selector, and Send Button */}
+          {/* Bottom Row: Task Selector, Model Selector, and Send/Stop Button */}
           <div className="flex items-center justify-between mt-2">
             <div className="flex gap-2">
               <FormField
@@ -141,12 +151,19 @@ export function MessageArea({ onSendMessage }: MessageAreaProps) {
               />
             </div>
 
-            {/* Send Button */}
+            {/* Send/Stop Button */}
             <Button 
-              type="submit" 
+              type={isStreaming ? "button" : "submit"}
+              onClick={isStreaming ? onStop : undefined}
               className="h-8 w-8 rounded-full bg-black dark:bg-gray-900 dark:hover:bg-gray-800 transition-transform hover:scale-120 flex-shrink-0"
+              disabled={status === 'error'}
+              aria-label={isStreaming ? "Stop generation" : "Send message"}
             >
-              <ArrowUp className="h-4 w-4 text-gray-50 dark:text-gray-900" />
+              {isStreaming ? (
+                <Square className="h-4 w-4 text-gray-50 dark:text-gray-900" />
+              ) : (
+                <ArrowUp className="h-4 w-4 text-gray-50 dark:text-gray-900" />
+              )}
             </Button>
           </div>
         </form>

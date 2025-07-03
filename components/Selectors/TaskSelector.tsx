@@ -33,7 +33,7 @@ interface TaskSelectorProps {
 export function TaskSelector({ value, onValueChange }: TaskSelectorProps) {
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className="w-fit focus:ring-0 focus:ring-offset-0 bg-gray-100 text-gray-500 border-none shadow-none">
+      <SelectTrigger className="w-fit focus:ring-0 focus:ring-offset-0 bg-gray-100 text-gray-500 border-none shadow-sm">
         <SelectValue placeholder="Select a task" />
       </SelectTrigger>
       <SelectContent>
