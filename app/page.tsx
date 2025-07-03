@@ -40,6 +40,8 @@ export default async function Home() {
     "https://www.googleapis.com/auth/drive.file",
     "https://www.googleapis.com/auth/drive.appdata",
     "https://www.googleapis.com/auth/drive.photos.readonly",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/userinfo.email",
   ];
 
   const state = crypto.randomBytes(16).toString("hex");
