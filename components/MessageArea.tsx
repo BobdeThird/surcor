@@ -74,27 +74,25 @@ export function MessageArea({ onSendMessage, status, onStop }: MessageAreaProps)
       <Form {...form}>
         <form onSubmit={handleSubmit} className="relative p-3 border rounded-2xl bg-white/75 backdrop-blur-sm shadow-lg">
           
-          {/* User Avatar Menu - Top Right */}
-          <div className="absolute top-3 right-3">
+          {/* Top Row: Context Selector and User Selector */}
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <FormField
+              control={form.control}
+              name="context"
+              render={({ field }) => (
+                <FormItem className="flex-1 overflow-hidden scrollbar-hide">
+                  <FormControl>
+                    <ContextSelector 
+                      value={field.value} 
+                      onValueChange={field.onChange}
+                      onAccessTokenChange={() => {}}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <UserSelector />
           </div>
-
-          {/* Context Selector */}
-          <FormField
-            control={form.control}
-            name="context"
-            render={({ field }) => (
-              <FormItem className="overflow-hidden mb-1 scrollbar-hide">
-                <FormControl>
-                  <ContextSelector 
-                    value={field.value} 
-                    onValueChange={field.onChange}
-                    onAccessTokenChange={() => {}}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
 
           {/* Message Input */}
           <FormField

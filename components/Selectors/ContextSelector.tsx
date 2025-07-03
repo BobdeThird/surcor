@@ -265,7 +265,7 @@ export function ContextSelector({ value = [], onValueChange, onAccessTokenChange
               </CommandGroup>
 
               {/* Google Drive Files */}
-              {isAuthenticated && (
+              {isAuthenticated ? (
                 <CommandGroup heading={
                   isLoadingFiles 
                     ? "Searching Google Drive..." 
@@ -304,6 +304,14 @@ export function ContextSelector({ value = [], onValueChange, onAccessTokenChange
                       )
                     })
                   )}
+                </CommandGroup>
+              ) : (
+                <CommandGroup heading="Google Drive">
+                  <CommandItem disabled>
+                    <span className="text-muted-foreground">
+                      Sign in with Google to access your Drive files
+                    </span>
+                  </CommandItem>
                 </CommandGroup>
               )}
             </CommandList>

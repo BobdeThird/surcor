@@ -13,6 +13,26 @@ import {
 } from "../ui/dropdown-menu"
 
 export function UserSelector() {
+  const handleLogout = async (e?: Event) => {
+    if (e) {
+      e.preventDefault()
+    }
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+      })
+      
+      if (response.ok) {
+        // Use window.location for a full page reload to trigger server-side auth check
+        window.location.href = '/'
+      } else {
+        console.error('Logout failed with status:', response.status)
+      }
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,7 +55,12 @@ export function UserSelector() {
           <span>Settings</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem 
+          onSelect={(e) => {
+            e.preventDefault()
+            handleLogout()
+          }}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
