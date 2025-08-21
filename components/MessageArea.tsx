@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/form"
 import { Button } from "./ui/button"
 import { ArrowUp, Square } from "lucide-react"
-import { TaskSelector } from "./Selectors/taskSelector"
-import { ModelSelector } from "./Selectors/modelSelector"
-import { ContextSelector } from "./Selectors/contextSelector"
-import { UserSelector } from "./Selectors/userSelector"
+import { TaskSelector } from "./Selectors/TaskSelector"
+import { ModelSelector } from "./Selectors/ModelSelector"
+import { ContextSelector } from "./Selectors/ContextSelector"
+import { UserSelector } from "./Selectors/UserSelector"
 
 const formSchema = z.object({
   task: z.string().min(1, {

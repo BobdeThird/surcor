@@ -2,7 +2,7 @@ import crypto from "crypto";
 import Link from "next/link";
 import oauth2Client from "./lib/google-oauth";
 import { Button } from "@/components/ui/button";
-import Chat from "@/components/chat";
+import Chat from "@/components/Chat";
 import { cookies } from "next/headers";
 
 export default async function Home() {
